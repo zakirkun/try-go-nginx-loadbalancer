@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  web:
+    build: services
+    container_name: services
+    restart: always
+    expose:
+      - 3000
+  gateway:
+    build: gateway
+    container_name: gateway
+    restart: always
+    expose:
+      - 5000
+  reverse-proxy:
+    image: nginx:latest
+    container_name: reverse-proxy
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/nginx.conf
+      - ./nginx/load-balancer.conf:/etc/nginx/sites-enabled/localhost.conf
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - services
+      - gateway
