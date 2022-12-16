@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-go-gateway
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: go-gateway
+  template:
+    metadata:
+      labels:
+        app: go-gateway
+    spec:
+      containers:
+      - name: go-gateway-container
+        image: zakirdev/go-gateway
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
